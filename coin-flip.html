@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>Coin flip game</title>
+</head>
+<body>
+    <button onclick="
+    playGame('heads');
+    ">heads</button>
+    <button onclick="
+    playGame('tails');
+    ">tails</button>
+    <button onclick="
+    score.wins=0;
+    score.losses=0;
+    localStorage.removeItem('score');
+    ">Reset</button>
+    <script>
+        let score=JSON.parse(localStorage.getItem('score')) || {
+            wins:0,
+            losses:0
+        };
+        function computerMov()
+        {
+        const randomNumber=Math.random();
+        let cvalue='';
+            if(randomNumber>=0 && randomNumber<1/5)
+            {
+                cvalue='heads';
+            }
+            else if(randomNumber>=1/5 && randomNumber<1){
+                cvalue='tails'
+            }
+            return cvalue;
+        }
+      function playGame(playerMove)
+        {
+            const computerMove=computerMov();
+            let result='';
+            if(playerMove==='heads')
+            {
+                if(computerMove==='heads')
+                {
+                    result='Correct guess!.';
+                }
+                else if(computerMove==='tails')
+                {
+                    result='Wrong guess!.'
+                }
+            }
+
+           else  if(playerMove==='tails')
+            {
+                if(computerMove==='tails')
+                {
+                    result='Correct guess!.';
+                }
+                else if(computerMove==='heads')
+                {
+                    result='Wrong guess!.';
+                }
+            }
+            if(result==='Correct guess!.')
+            {
+                score.wins+=1;
+            }
+            else if(result==='Wrong guess!.')
+            {
+                score.losses+=1;
+            }
+            
+            localStorage.setItem('score',JSON.stringify(score));
+                console.log('Win: '+score.wins+' Losses: '+score.losses)
+
+            alert(`Computer guess ${computerMove}.You picked ${playerMove}. ${result}.\nWin: ${score.wins}. Losses: ${score.losses}`);
+
+        }
+
+    </script>
+</body>
+</html>
